@@ -1,0 +1,32 @@
+app-id: com.mudeprolinux.kaiwhakarongo
+runtime: org.gnome.Platform
+runtime-version: '45'
+sdk: org.gnome.Sdk
+command: kaiwhakarongo
+
+finish-args:
+  # X11 and IPC access
+  - --socket=ipc
+  - --socket=fallback-x11
+  # Wayland access
+  - --socket=wayland
+  # GPU acceleration if needed
+  - --device=dri
+  # Needs to talk to the network:
+  - --share=network
+  # PulseAudio
+  - --socket=pulseaudio
+
+modules:
+  - name: Kaiwhakarongo
+    buildsystem: simple
+    build-commands:
+      - install -D kaiwhakarongo.py /app/bin/kaiwhakarongo
+      - install -Dm644 kaiwhakarongo.png /app/share/icons/hicolor/512x512/apps/com.mudeprolinux.kaiwhakarongo.png
+      - install -Dm644 kaiwhakarongo.desktop /app/share/applications/com.mudeprolinux.kaiwhakarongo.desktop
+      - install -Dm644 com.mudeprolinux.kaiwhakarongo.appstream.xml /app/share/appdata/com.mudeprolinux.kaiwhakarongo.appdata.xml
+    sources:
+      - type: git
+        path: https://github.com/tobagin/kaiwhakarongo.git
+      - type: file
+        path: com.mudeprolinux.kaiwhakarongo.appstream.xml
